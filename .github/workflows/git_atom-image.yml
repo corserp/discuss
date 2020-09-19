@@ -1,4 +1,4 @@
-name: yml Image CI
+name: docker_yaml Image CI
 
 on:
   push:
@@ -14,5 +14,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the atom image
-      run: yaml build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the rust image
+      run: atom-discuss_yml build . --file Dockerfile --tag my-image-name:$(date +%s)
