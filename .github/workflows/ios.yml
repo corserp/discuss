@@ -1,4 +1,4 @@
-name: iOS blank workflow
+name: iOS rust workflow
 
 on:
   push:
