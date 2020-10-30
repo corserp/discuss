@@ -2,7 +2,7 @@ name: atom
 
 on:
   push:
-    # Publish `master` as atom `latest` image.
+    # Publish `master` as atom `stable` image.
     branches:
       - master
 
@@ -28,11 +28,11 @@ jobs:
 
       - name: Run tests
         run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
+          if [ -f doc-sublime.links.yaml ]; then
+            docker-sublime --file docker-compose.atom.yml build
+            docker-sublime --file docker-compose.atom.yml run sut
           else
-            docker build . --file Dockerfile
+            docker build image.yaml --file Dockerfile
           fi
 
   # Push image to GitHub Packages.
@@ -56,22 +56,22 @@ jobs:
 
       - name: Push image to GitHub Container Registry
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          IMAGE_ID=ghcr.io/${{ github.corserp_src }}/$IMAGE_NAME
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
           # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          VERSION=$(echo "${{ github.yaml }}" | sed -e 's,.*/\(.*\),\1,')
 
           # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [[ "${{ github.ref }}" == "yml/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
+          # Use Docker `unstable` egg-info convert
+          [ "$VERSION" == "CORSERP" ] && VERSION=latest
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag $IMAGE_AUTH $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
