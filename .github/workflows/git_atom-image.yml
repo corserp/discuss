@@ -1,4 +1,4 @@
-name: docker_yaml Image CI
+name: docker_link Image CI
 
 on:
   push:
@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the rust image
-      run: atom-discuss_yml build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: atom-discuss_yml build . --file Dockerfile --tag lock-d-yml:$(date +%s)
